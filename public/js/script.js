@@ -77,13 +77,9 @@ var weatherData = (function() {
 
 var app = (function() {
 
-  var renderTemp = function(data) {
-    $('body').append('<h2>' + data.currently.apparentTemperature + '</h2>');
-  }
-
   var init = function() {
     geoIP.get(function(latlng) {
-      weatherData.get(latlng, renderTemp);
+      weatherData.get(latlng, function() {});
     });
   }
 

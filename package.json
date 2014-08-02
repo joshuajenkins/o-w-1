@@ -11,7 +11,9 @@
   "dependencies": {
     "express": "^4.7.2",
     "http": "0.0.0",
+    "mongodb": "^1.4.8",
     "mustache-express": "^1.2.0",
+    "nodemailer": "^1.1.1",
     "restler": "^3.2.2"
   }
 }
