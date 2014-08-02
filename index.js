@@ -29,7 +29,7 @@ app.get('/', function(req, res) {
   res.render('index.mustache');
 });
 
-var port = process.env.PORT || 5500;
+var port = process.env.PORT;
 app.listen(port, function() {
   console.log('Listening on port ' + port);
 });
