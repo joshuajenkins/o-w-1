@@ -9,6 +9,7 @@
   "author": "Joshua Jenkins",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.5.2",
     "express": "^4.7.2",
     "http": "0.0.0",
     "mongodb": "^1.4.8",

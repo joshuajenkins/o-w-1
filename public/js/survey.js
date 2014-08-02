@@ -37,6 +37,7 @@ var bindEvents = function() {
           color: color,
           data: data
         },
+        method: 'POST',
         success: thanks
       });
       setTimeout(function(){ flag = false; }, 100);

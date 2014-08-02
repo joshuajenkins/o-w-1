@@ -3,7 +3,8 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     rest = require('restler'),
-    mongodb = require('mongodb');
+    mongodb = require('mongodb'),
+    bodyParser = require('body-parser');
 
 http.createServer(express);
 var app = express();
@@ -42,12 +43,15 @@ var database = function(callback) {
   }
 };
 
-app.get('/survey/post/', function(req, res) {
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded()); 
+
+app.post('/survey/post', function(req, res) {
   database(function(db) {
     var Colors = db.collection('colors');
     Colors.insert({
-      color: req.query.color,
-      data: req.query.data
+      color: req.body.color,
+      data: req.body.data
     }, function() {
       res.send('success');
     });
