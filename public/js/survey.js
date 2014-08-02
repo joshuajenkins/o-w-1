@@ -20,7 +20,9 @@ var sending = function() {
 }
 
 var thanks = function() {
-  $('h2').html('Thanks, good lookin&rsquo;. Have a nice day.');
+  $('h2').remove();
+  $('body').append('<h2>Thanks, good lookin&rsquo;. Have a nice day.</h2>');
+  localStorage['thanked-at'] = Date.now();
 }
 
 var bindEvents = function() {
@@ -41,7 +43,11 @@ var bindEvents = function() {
 }
 
 $(document).ready(function() {
-  var colorList = renderColors();
-  $('body').append(colorList);
-  bindEvents();
+  if (localStorage['thanked-at'] && (Date.now() < (parseInt(localStorage['thanked-at']) + 3600000))) {
+    thanks();
+  } else {
+    var colorList = renderColors();
+    $('body').append(colorList);
+    bindEvents();
+  }
 });
