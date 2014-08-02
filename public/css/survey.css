@@ -11,14 +11,14 @@ h1 {
   line-height: 1.25em;
   font-weight: normal;
   text-align: center;
-  margin: 3em;
+  margin: 3em 1.5em;
 }
 
 h2 {
   color: #666;
   font-size: 22px;
   line-height: 1.25em;
-  margin: 3em;
+  margin: 3em 1.5em;
   text-align: center;
 }
 

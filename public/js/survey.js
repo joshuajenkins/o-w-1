@@ -23,25 +23,20 @@ var thanks = function() {
   $('h2').text('Thanks, beautiful. Have a nice day.');
 }
 
-var flag;
 var bindEvents = function() {
-  $('li').on('touchstart click', function() {
-    if (!flag) {
-      flag = true;
-      sending();
-      var color = $(this).data('color');
-      var data = localStorage['o-w.weatherData'];
-      $.ajax({
-        url: '/survey/post',
-        data: {
-          color: color,
-          data: data
-        },
-        method: 'POST',
-        success: thanks
-      });
-      setTimeout(function(){ flag = false; }, 100);
-    }
+  $('li').on('click', function() {
+    sending();
+    var color = $(this).data('color');
+    var data = localStorage['o-w.weatherData'];
+    $.ajax({
+      url: '/survey/post',
+      data: {
+        color: color,
+        data: data
+      },
+      method: 'POST',
+      success: thanks
+    });
   });
 }
 
