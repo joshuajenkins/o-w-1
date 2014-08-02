@@ -20,7 +20,7 @@ var sending = function() {
 }
 
 var thanks = function() {
-  $('h2').text('Thanks, good lookin&rsquo;. Have a nice day.');
+  $('h2').html('Thanks, good lookin&rsquo;. Have a nice day.');
 }
 
 var bindEvents = function() {
