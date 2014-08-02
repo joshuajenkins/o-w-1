@@ -1,12 +1,39 @@
-var LAT = 37.7548095;
-var LNG = -122.4279599;
-
-var weatherData = (function() {
-  var fetchURL = 'forecast/' + LAT + ',' + LNG,
-      isCached = false;
-      cacheTimeout = 3600000; // 1 hour
+var geoIP = (function() {
+  var lat,
+      lng;
 
   var fetch = function(callback) {
+    $.ajax({
+      url: 'http://www.telize.com/geoip',
+      dataType: 'JSONP',
+      success: callback
+    });
+  }
+
+  var get = function(callback) {
+    if (!lat || !lng) {
+      fetch(function(data) {
+        lat = data.latitude;
+        lng = data.longitude;
+        return callback([lat, lng]);
+      });
+    } else {
+      return callback([lat, lng]);
+    }
+  }
+
+  return {
+    'get': get
+  }
+
+}());
+
+var weatherData = (function() {
+  var isCached = false;
+      cacheTimeout = 3600000; // 1 hour
+
+  var fetch = function(latlng, callback) {
+    var fetchURL = 'forecast/' + latlng[0] + ',' + latlng[1];
     $.get(fetchURL, function(data) {
       success: callback(data)
     });
@@ -31,19 +58,16 @@ var weatherData = (function() {
     return JSON.parse(localStorage['o-w.weatherData']);
   }
 
-  var get = function() {
-    var promise = new Promise(function(resolve, reject) {
-      checkCache();
-      if (isCached) {
-        resolve(cachedData());
-      } else {
-        fetch(function(freshData) {
-          cache(freshData);
-          resolve(freshData);
-        });
-      }
-    });
-    return promise;
+  var get = function(latlng, callback) {
+    checkCache();
+    if (isCached) {
+      callback(cachedData());
+    } else {
+      fetch(latlng, function(freshData) {
+        cache(freshData);
+        callback(freshData);
+      });
+    }
   }
 
   return {
@@ -51,8 +75,24 @@ var weatherData = (function() {
   }
 }());
 
+var app = (function() {
+
+  var renderTemp = function(data) {
+    $('body').append('<h2>' + data.currently.apparentTemperature + '</h2>');
+  }
+
+  var init = function() {
+    geoIP.get(function(latlng) {
+      weatherData.get(latlng, renderTemp);
+    });
+  }
+
+  return {
+    'init': init
+  }
+
+}());
+
 $(document).ready(function() {
-  weatherData.get().then(function(weather) {
-    $('body').append('<h2>' + weather.currently.apparentTemperature + '</h2>');
-  });
+  app.init();
 });
